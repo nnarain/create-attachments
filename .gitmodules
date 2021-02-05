@@ -1,3 +1,0 @@
-[submodule "scad/NopSCADlib"]
-	path = scad/NopSCADlib
-	url = https://github.com/nophead/NopSCADlib.git
