@@ -1,10 +1,13 @@
-include <../NopSCADlib/lib.scad>
+include <NopSCADlib/lib.scad>
+include <BOSL/constants.scad>
+use <BOSL/shapes.scad>
 
 // Two pieces.
 // The underside, which has columns that come through the cover mounting holes
 // The fastener side that mates with the columns. The fastener will have inserts for 
 // machine screws
 include <../vitamins/deco-cover-spec.scad>
+include <./blocks-spec.scad>
 
 padding = 10;
 hole_group_length_x = deco_mounting_holes_length_x();
@@ -14,70 +17,71 @@ underside_width = deco_mounting_holes_length_y() + padding;
 underside_thickness = 2;
 
 // How long the columns must be
-column_height = 20;
+column_height = 15;
 
 fastener_length = underside_length;
 fastener_width = underside_width;
-fastener_thickness = column_height + 5;
+fastener_thickness = column_height + 10;
+fastener_mounting_hole_radius = deco_mounting_hole_radius();
+fastener_mounting_hole_depth = 10;
+fastener_mounting_cutaway = 10;
 
 bind = 0.01;
 
-// TODO: Configurable radius
-module columns() {
+module columns(positions, radius, height) {
     union() {
         // A column at each hole position
-        for (p = deco_mounting_holes()) {
+        for (p = positions) {
             translate([p[0], p[1], 0])
-                cylinder(r=deco_mounting_hole_radius(), h=column_height, center=false, $fn=50);
+                cylinder(r=radius, h=height, center=false, $fn=50);
         }
     }
 }
 
-module underside(x_trans) {
+module block_base(thickness) {
+    mounting_hole_positions = mounting_block_holes();
+    padding = mounting_block_hole_padding();
+
+    // X-axis
+    left = mounting_hole_positions[1][0];
+    right = mounting_hole_positions[0][0];
+    // Y-axis
+    forward = mounting_hole_positions[0][1];
+    backwards = mounting_hole_positions[3][1];
+
+    // middle y
+    mid = mounting_hole_positions[2][1];
+
+    hyp = sqrt(pow(right - left, 2) + pow(forward - backwards, 2));
+
+    difference() {
+        span_cube([left - padding, right + padding], [forward + padding, backwards - padding], [0, thickness]);
+        translate([left - padding, backwards - padding, 0])
+            rotate([0, 0, 45])
+                cube(size=[hyp, hyp, 10], center=true);
+    }
+}
+
+module underside() {
     union() {
-        center_offset = [-underside_length / 2, -underside_width / 2];
-        translate([center_offset[0] + x_trans, center_offset[1], 0])
-            block_base(underside_length, underside_width, underside_thickness);
-        // Translated up to the top surface of the block
-        // Translate to the side by half the length to center the column group
-        translate([0, 0, underside_thickness / 2 - bind])
-            rotate([0, 0])
-                columns();
+        columns(mounting_block_holes(), deco_mounting_hole_radius(), mounting_block_column_height());
+        block_base(underside_thickness());
     }
 }
 
 module underside_left_stl() {
     stl("underside_left");
-    underside(-hole_group_length_x / 2);
+    underside();
 }
 
 module underside_right_stl() {
     stl("underside_right");
     mirror([1, 0, 0])
-        underside(-hole_group_length_x / 2);
+        underside();
 }
 
 module fastener() {
-    center_offset = [-fastener_length / 2, -fastener_width / 2];
-
-    difference() {
-        translate([center_offset[0], center_offset[1], 0])
-            block_base(fastener_length, fastener_width, fastener_thickness);
-        translate([hole_group_length_x / 2, 0, (fastener_thickness / 2) - column_height + bind])
-            columns();
-    }
-
-}
-
-// A block with angled corner
-module block_base(l, w, t) {
-    rotate([0, 0, 0])
-        difference() {
-            cube(size=[l, w, t]);
-            rotate([0, 0, 45])
-                translate([-l/2, -w/2, -bind])
-                    cube(size=[l, w, t + 2*bind]);
-        }
+    // cube(size=[10, 10, 10], center=true);
 }
 
 module fastener_left_stl() {
