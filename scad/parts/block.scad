@@ -1,6 +1,8 @@
-include <NopSCADlib/lib.scad>
+include <NopSCADlib/core.scad>
 include <BOSL/constants.scad>
 use <BOSL/shapes.scad>
+use <BOSL/transforms.scad>
+use <BOSL/sliders.scad>
 
 // Two pieces.
 // The underside, which has columns that come through the cover mounting holes
@@ -19,10 +21,6 @@ underside_thickness = 2;
 // How long the columns must be
 column_height = 15;
 
-fastener_length = underside_length;
-fastener_width = underside_width;
-fastener_thickness = column_height + 10;
-fastener_mounting_hole_radius = deco_mounting_hole_radius();
 fastener_mounting_hole_depth = 10;
 fastener_mounting_cutaway = 10;
 
@@ -38,19 +36,16 @@ module columns(positions, radius, height) {
     }
 }
 
-module block_base(thickness) {
-    mounting_hole_positions = mounting_block_holes();
-    padding = mounting_block_hole_padding();
-
+module block_base(thickness, padding, positions) {
     // X-axis
-    left = mounting_hole_positions[1][0];
-    right = mounting_hole_positions[0][0];
+    left = positions[1][0];
+    right = positions[0][0];
     // Y-axis
-    forward = mounting_hole_positions[0][1];
-    backwards = mounting_hole_positions[3][1];
+    forward = positions[0][1];
+    backwards = positions[3][1];
 
     // middle y
-    mid = mounting_hole_positions[2][1];
+    mid = positions[2][1];
 
     hyp = sqrt(pow(right - left, 2) + pow(forward - backwards, 2));
 
@@ -58,14 +53,15 @@ module block_base(thickness) {
         span_cube([left - padding, right + padding], [forward + padding, backwards - padding], [0, thickness]);
         translate([left - padding, backwards - padding, 0])
             rotate([0, 0, 45])
-                cube(size=[hyp, hyp, 10], center=true);
+                cube(size=[hyp, hyp, thickness * 10], center=true);
     }
 }
 
 module underside() {
     union() {
-        columns(mounting_block_holes(), deco_mounting_hole_radius(), mounting_block_column_height());
-        block_base(underside_thickness());
+        zmove(underside_thickness() - bind)
+            columns(mounting_block_holes(), deco_mounting_hole_radius(), mounting_block_column_height());
+        block_base(underside_thickness(), mounting_block_hole_padding(), mounting_block_holes());
     }
 }
 
@@ -81,7 +77,25 @@ module underside_right_stl() {
 }
 
 module fastener() {
-    // cube(size=[10, 10, 10], center=true);
+    top = fastener_thickness();
+    padding = mounting_block_hole_padding();
+    positions = mounting_block_holes();
+
+    right = positions[0][0];
+    forward = positions[0][1];
+    backwards = positions[3][1];
+    mid = positions[2][0];
+
+    union() {
+        difference() {
+            block_base(top, padding, positions);
+            zmove(-bind) columns(mounting_block_holes(), deco_mounting_hole_radius(), mounting_block_column_height());
+            // # span_cube([mid, right + padding + bind], [forward + padding + bind, backwards - padding - bind], [top-10, top+bind]);
+        }
+        translate([right + padding - bind, 0, top/2])
+           rotate([90, 0, 90])
+               rail(top, 10, 10);
+    }
 }
 
 module fastener_left_stl() {
@@ -99,8 +113,8 @@ module left_block_assembly() {
 assembly("left_block_assembly") {
     render()
         underside_left_stl();
-        z_offset = underside_thickness + deco_thickness();
-        translate([-hole_group_length_x / 2, 0, z_offset])
+        z_offset = deco_thickness();
+        translate([0, 0, z_offset])
             fastener_left_stl();
 }
 }
@@ -109,8 +123,8 @@ module right_block_assembly() {
 assembly("right_block_assembly") {
     render()
         underside_right_stl();
-        z_offset = underside_thickness + deco_thickness();
-        translate([hole_group_length_x / 2, 0, z_offset])
+        z_offset = deco_thickness();
+        translate([0, 0, z_offset])
             fastener_right_stl();
 }
 }
