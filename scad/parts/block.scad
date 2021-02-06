@@ -110,7 +110,7 @@ module fastener_right_stl() {
 }
 
 module left_block_assembly() {
-assembly("left_block_assembly") {
+assembly("left_block") {
     render()
         underside_left_stl();
         z_offset = deco_thickness();
@@ -120,7 +120,7 @@ assembly("left_block_assembly") {
 }
 
 module right_block_assembly() {
-assembly("right_block_assembly") {
+assembly("right_block") {
     render()
         underside_right_stl();
         z_offset = deco_thickness();
