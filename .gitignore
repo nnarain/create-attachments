@@ -1,0 +1,13 @@
+venv/*
+*.pyc
+
+assemblies/times.txt
+bom/
+deps/
+dxfs/
+stls/
+
+*.log
+*.echo
+
+*.html
