@@ -22,9 +22,7 @@
 |  |  |  | | **3D printed parts** |
 | &nbsp;&nbsp;.&nbsp; | &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;.&nbsp; |  &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;fastener_left.stl |
 | &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;.&nbsp; | &nbsp;&nbsp;.&nbsp; |  &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;fastener_right.stl |
-| &nbsp;&nbsp;.&nbsp; | &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;.&nbsp; |  &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;underside_left.stl |
-| &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;.&nbsp; | &nbsp;&nbsp;.&nbsp; |  &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;underside_right.stl |
-| &nbsp;&nbsp;2&nbsp; | &nbsp;&nbsp;2&nbsp; | &nbsp;&nbsp;.&nbsp; | &nbsp;&nbsp;4&nbsp; | &nbsp;&nbsp;Total 3D printed parts count |
+| &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;1&nbsp; | &nbsp;&nbsp;.&nbsp; | &nbsp;&nbsp;2&nbsp; | &nbsp;&nbsp;Total 3D printed parts count |
 
 <span></span>
 [Top](#TOP)
@@ -34,9 +32,9 @@
 ## Right Block Assembly
 ### 3D Printed parts
 
-| 1 x fastener_right.stl | 1 x underside_right.stl |
-|---|---|
-| ![fastener_right.stl](stls/fastener_right.png) | ![underside_right.stl](stls/underside_right.png) 
+| 1 x fastener_right.stl |
+|---|
+| ![fastener_right.stl](stls/fastener_right.png) 
 
 
 
@@ -53,9 +51,9 @@
 ## Left Block Assembly
 ### 3D Printed parts
 
-| 1 x fastener_left.stl | 1 x underside_left.stl |
-|---|---|
-| ![fastener_left.stl](stls/fastener_left.png) | ![underside_left.stl](stls/underside_left.png) 
+| 1 x fastener_left.stl |
+|---|
+| ![fastener_left.stl](stls/fastener_left.png) 
 
 
 

@@ -2,6 +2,7 @@ venv/*
 *.pyc
 
 assemblies/times.txt
+assemblies/*_diff.png
 bom/
 deps/
 dxfs/
