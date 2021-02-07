@@ -9,12 +9,12 @@ deco_cover_spec = [
     2,
     // Mounting holes (four hole cluster, centered on the origin)
     [
-                  [0,  25],
-        [-25, 0], [0,   0],
-                  [0, -25]
+                  [0,  25.5],
+        [-22.4, 0], [0,   0],
+                  [0, -25.5]
     ],
     // Mounting hole radius
-    2,
+    1.6,
     // Offset of the mounting holes from the center of the plate
     [
         // Left

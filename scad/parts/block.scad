@@ -60,7 +60,7 @@ module block_base(thickness, padding, positions) {
 module underside() {
     union() {
         zmove(underside_thickness() - bind)
-            columns(mounting_block_holes(), deco_mounting_hole_radius(), mounting_block_column_height());
+            columns(mounting_block_holes(), column_radius(), mounting_block_column_height());
         block_base(underside_thickness(), mounting_block_hole_padding(), mounting_block_holes());
     }
 }
@@ -89,7 +89,7 @@ module fastener() {
     union() {
         difference() {
             block_base(top, padding, positions);
-            zmove(-bind) columns(mounting_block_holes(), deco_mounting_hole_radius(), mounting_block_column_height());
+            zmove(-bind) columns(mounting_block_holes(), column_radius(), mounting_block_column_height());
             // # span_cube([mid, right + padding + bind], [forward + padding + bind, backwards - padding - bind], [top-10, top+bind]);
         }
         translate([right + padding - bind, 0, top/2])
