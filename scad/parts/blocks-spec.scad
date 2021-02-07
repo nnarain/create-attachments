@@ -1,6 +1,6 @@
 include <../vitamins/deco-cover-spec.scad>
 
-_column_height = 25;
+_column_height = 4;
 
 mounting_block_spec = [
     // Deco cover mounting holes                   (0)
@@ -21,5 +21,4 @@ function mounting_block_holes() = mounting_block_spec[0];
 function mounting_block_hole_padding() = mounting_block_spec[1];
 function mounting_block_column_height() = mounting_block_spec[2];
 function column_radius() = mounting_block_spec[3];
-function underside_thickness() = mounting_block_spec[4];
 function fastener_thickness() = mounting_block_spec[5];

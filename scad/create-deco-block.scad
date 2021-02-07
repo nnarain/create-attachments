@@ -12,9 +12,9 @@ use <parts/block.scad>
 module main_assembly() {
 assembly("main") {
     deco_cover();
-    translate([deco_mounting_hole_offset_left()[0], deco_mounting_hole_offset_left()[1], -underside_thickness()])
+    translate([deco_mounting_hole_offset_left()[0], deco_mounting_hole_offset_left()[1], 0])
         left_block_assembly();
-    translate([deco_mounting_hole_offset_right()[0], deco_mounting_hole_offset_right()[1], -underside_thickness()])
+    translate([deco_mounting_hole_offset_right()[0], deco_mounting_hole_offset_right()[1], 0])
         right_block_assembly();
 }
 }

@@ -57,25 +57,6 @@ module block_base(thickness, padding, positions) {
     }
 }
 
-module underside() {
-    union() {
-        zmove(underside_thickness() - bind)
-            columns(mounting_block_holes(), column_radius(), mounting_block_column_height());
-        block_base(underside_thickness(), mounting_block_hole_padding(), mounting_block_holes());
-    }
-}
-
-module underside_left_stl() {
-    stl("underside_left");
-    underside();
-}
-
-module underside_right_stl() {
-    stl("underside_right");
-    mirror([1, 0, 0])
-        underside();
-}
-
 module fastener() {
     top = fastener_thickness();
     padding = mounting_block_hole_padding();
@@ -87,11 +68,9 @@ module fastener() {
     mid = positions[2][0];
 
     union() {
-        difference() {
-            block_base(top, padding, positions);
-            zmove(-bind) columns(mounting_block_holes(), column_radius(), mounting_block_column_height());
-            // # span_cube([mid, right + padding + bind], [forward + padding + bind, backwards - padding - bind], [top-10, top+bind]);
-        }
+        block_base(top, padding, positions);
+        height = mounting_block_column_height();
+        zmove(-height + bind) columns(mounting_block_holes(), column_radius(), height);
         translate([right + padding - bind, 0, top/2])
            rotate([90, 0, 90])
                rail(top, 10, 10);
@@ -112,19 +91,13 @@ module fastener_right_stl() {
 module left_block_assembly() {
 assembly("left_block") {
     render()
-        underside_left_stl();
-        z_offset = deco_thickness();
-        translate([0, 0, z_offset])
-            fastener_left_stl();
+        fastener_left_stl();
 }
 }
 
 module right_block_assembly() {
 assembly("right_block") {
     render()
-        underside_right_stl();
-        z_offset = deco_thickness();
-        translate([0, 0, z_offset])
-            fastener_right_stl();
+        fastener_right_stl();
 }
 }
