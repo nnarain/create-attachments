@@ -9,13 +9,22 @@ include <vitamins/deco-cover.scad>
 include <parts/blocks-spec.scad>
 use <parts/block.scad>
 
+use <parts/pi-mount.scad>
+
 module main_assembly() {
 assembly("main") {
+    // The Deco Cover that everything mounts to
     deco_cover();
-    translate([deco_mounting_hole_offset_left()[0], deco_mounting_hole_offset_left()[1], 0])
+    // Left block
+    translate([deco_mounting_hole_offset_left()[0], deco_mounting_hole_offset_left()[1], deco_thickness()])
         left_block_assembly();
-    translate([deco_mounting_hole_offset_right()[0], deco_mounting_hole_offset_right()[1], 0])
+    // Right block
+    translate([deco_mounting_hole_offset_right()[0], deco_mounting_hole_offset_right()[1], deco_thickness()])
         right_block_assembly();
+    // Mount of the PI
+    translate([0, deco_mounting_hole_offset_right()[1] + 10, deco_thickness()])
+        rotate([0, 0, -90])
+            pi_mount_assembly();
 }
 }
 
