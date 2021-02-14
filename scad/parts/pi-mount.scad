@@ -14,7 +14,7 @@ BOARD_TYPE = RPI3;
 board_size = pcb_size(BOARD_TYPE);
 
 // clearance between the board and the enclosure wall
-clearance = 3;
+clearance = [6, 3];
 // shell thickness around the board
 enclouse_thickness = 10;
 
@@ -52,8 +52,8 @@ module base_block(l, w, h, slider_offset) {
 
 module pi_base(dim) {
     // interior sizes
-    il = dim[0] + clearance;
-    iw = dim[1] + clearance;
+    il = dim[0] + clearance[0];
+    iw = dim[1] + clearance[1];
     ih = dim[2];
     // exterior sizes
     el = il + enclouse_thickness;

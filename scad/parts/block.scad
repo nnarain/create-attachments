@@ -72,8 +72,8 @@ module fastener() {
         difference() {
             block_base(top, padding, positions);
             // A column for the serial cable to wrap around
-            translate([cable_wrap_offset(), 0, top - cable_wrap_depth()])
-                cylinder(r=cable_wrap_radius(), h=cable_wrap_height(), center=false);
+            // translate([cable_wrap_offset(), 0, top - cable_wrap_depth()])
+            //     cylinder(r=cable_wrap_radius(), h=cable_wrap_height(), center=false);
         }
         height = mounting_block_column_height();
         zmove(-height + bind) columns(mounting_block_holes(), column_radius(), height);
@@ -103,8 +103,8 @@ module left_block_assembly() {
 assembly("left_block") {
     render()
         fastener_left_stl();
-        translate([cable_wrap_offset(), 0, 0])
-            cable_wrap_stl();
+        // translate([cable_wrap_offset(), 0, 0])
+        //     cable_wrap_stl();
 }
 }
 
@@ -112,7 +112,7 @@ module right_block_assembly() {
 assembly("right_block") {
     render()
         fastener_right_stl();
-        translate([-cable_wrap_offset(), 0, 0])
-            cable_wrap_stl();
+        // translate([-cable_wrap_offset(), 0, 0])
+        //     cable_wrap_stl();
 }
 }
