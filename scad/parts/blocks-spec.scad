@@ -14,7 +14,7 @@ mounting_block_spec = [
     // Underside thickness
     1.5,
     // Fastener thickness
-    _column_height + 10,
+    _column_height + 7.5,
     // Cable wrap height
     30,
     // cable wrap radius

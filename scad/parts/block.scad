@@ -18,9 +18,6 @@ underside_length = hole_group_length_x + padding;
 underside_width = deco_mounting_holes_length_y() + padding;
 underside_thickness = 2;
 
-// How long the columns must be
-column_height = 15;
-
 fastener_mounting_hole_depth = 10;
 fastener_mounting_cutaway = 10;
 
@@ -69,50 +66,8 @@ module fastener() {
     mid = positions[2][0];
 
     union() {
-        difference() {
-            block_base(top, padding, positions);
-            // A column for the serial cable to wrap around
-            // translate([cable_wrap_offset(), 0, top - cable_wrap_depth()])
-            //     cylinder(r=cable_wrap_radius(), h=cable_wrap_height(), center=false);
-        }
+        block_base(top, padding, positions);
         height = mounting_block_column_height();
         zmove(-height + bind) columns(mounting_block_holes(), column_radius(), height);
-        translate([right + padding - bind, 0, top/2])
-           rotate([90, 0, 90])
-               rail(top, 10, 10);
     }
-}
-
-module cable_wrap_stl() {
-    stl("cable_wrap");
-    cylinder(r=cable_wrap_radius(), h=cable_wrap_height(), center=false);
-}
-
-module fastener_left_stl() {
-    stl("fastener_left");
-    fastener();
-}
-
-module fastener_right_stl() {
-    stl("fastener_right");
-    mirror([1, 0, 0])
-        fastener();
-}
-
-module left_block_assembly() {
-assembly("left_block") {
-    render()
-        fastener_left_stl();
-        // translate([cable_wrap_offset(), 0, 0])
-        //     cable_wrap_stl();
-}
-}
-
-module right_block_assembly() {
-assembly("right_block") {
-    render()
-        fastener_right_stl();
-        // translate([-cable_wrap_offset(), 0, 0])
-        //     cable_wrap_stl();
-}
 }
